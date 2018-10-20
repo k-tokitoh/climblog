@@ -1,0 +1,2 @@
+class OutdoorProblem < Problem
+end

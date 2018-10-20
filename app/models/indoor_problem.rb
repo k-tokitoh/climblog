@@ -1,0 +1,2 @@
+class IndoorProblem < Problem
+end

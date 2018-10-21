@@ -1,0 +1,33 @@
+<h1>新規課題登録</h1>
+
+<%= form_for(@problem) do |f| %>
+    <%= render 'layouts/error_messages', model: f.object %>
+
+    <p>
+        <%= f.label :type, 'タイプ' %>
+        <%= f.select :type, ['IndoorProblem', 'OutdoorProblem'] %>
+    </p>
+    
+    <p>
+        <%= f.label :grade, 'グレード' %>
+        <%= f.select :grade, GRADE_CORRESPONDENCE.invert %>
+    </p>
+    
+    <p>
+        <%= f.label :name, '名称（外岩のみ）' %>
+        <%= f.text_field :name %>
+    </p>
+    
+    <p>
+        <%= f.label :photos, '画像' %>
+        <%= f.file_field :photos %>
+    </p>
+    
+    <p>
+        <%= f.label :description, '説明' %>
+        <%= f.text_field :description %>
+    </p>
+    
+    <%= f.hidden_field :spot_id, value: @spot.id %>
+    <%= f.submit '新規登録' %>
+<% end %>

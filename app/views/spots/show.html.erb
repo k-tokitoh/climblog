@@ -1,0 +1,11 @@
+<h2><%= "#{@spot.type}情報" %></h2>
+<p><%= @spot.name %></p>
+<p><%= @spot.prefecture %></p>
+<p><%= @spot.adress %></p>
+<p><%= @spot.url %></p>
+
+<h2>課題一覧</h2>
+
+<% GRADE_CORRESPONDENCE.each do |num,str| %>
+    <p><%= link_to str, problems_path(spot_id: @spot.id, grade: num) %></p>
+<% end %>

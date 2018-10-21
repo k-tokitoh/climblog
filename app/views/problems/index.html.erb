@@ -1,0 +1,18 @@
+<h1><%= @spot.name %>
+<%= GRADE_CORRESPONDENCE[@grade.to_i] %>課題一覧</h1>
+
+
+<% @problems.each do |problem| %>
+    <p>
+        <%= problem.id %>
+        <%= problem.name %>
+        <% problem.photos.each do |photo| %>
+          <%= image_tag photo, size: '300x300' %><br>
+        <% end %>
+        <%= problem.description %>
+        <%= link_to 'ポップアップ', new_log_path %>
+    </p>
+<% end %>
+
+
+<%= link_to '新規課題を登録する', new_problem_path(spot_id: @spot.id.to_s, grade: @grade) %>

@@ -25,6 +25,11 @@ class ProblemsController < ApplicationController
       render :new
     end
   end
+  
+  def destroy
+    Problem.find(params[:id].to_i).destroy
+    redirect_to problems_path(spot_id: params[:spot_id], grade: params[:grade])
+  end
 
   private
 

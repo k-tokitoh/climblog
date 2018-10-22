@@ -1,5 +1,5 @@
 class Problem < ApplicationRecord
-    has_one :spot
+    belongs_to :spot
     has_many :logs
     has_many_attached :photos
 end

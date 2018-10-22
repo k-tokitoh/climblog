@@ -1,3 +1,18 @@
-ユーザー詳細ページ
+<h3>ユーザー名：<%= @user.name %></h3>
 
 <%= link_to 'ログを作成する', spots_path %>
+
+
+<% @user.logs.each do |log| %>
+    <p>
+        <% log.problem.photos.each do |photo| %>
+            <%= image_tag photo, size: '300x300' %><br>
+        <% end %>
+        <%= log.climbed_at %>
+        <%= log.status %><br>
+        <%= log.problem.spot.name %>
+        <%= GRADE_CORRESPONDENCE[log.problem.grade] %><br>
+        <%= log.comment %><br>
+    </p>
+    -----------------------------------------
+<% end %>

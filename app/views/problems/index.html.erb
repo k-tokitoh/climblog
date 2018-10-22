@@ -10,8 +10,10 @@
           <%= image_tag photo, size: '300x300' %><br>
         <% end %>
         <%= problem.description %>
-        <%= link_to 'ポップアップ', new_log_path %>
+        <%= link_to 'ログを作成する', new_log_path(problem_id: problem.id) %>
+        <%= link_to '課題を削除する', problem_path(problem, spot_id:problem.spot ,grade:problem.grade), {method: :delete} %>
     </p>
+    ----------------------------------------------
 <% end %>
 
 

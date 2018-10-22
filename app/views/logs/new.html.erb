@@ -1,0 +1,23 @@
+<h1>新規ログ登録</h1>
+
+<%= @problem.id %>
+
+<%= form_for(@log) do |f| %>
+    <%= render 'layouts/error_messages', model: f.object %>
+
+    <p>
+        <%= f.date_select :climbed_at %>
+    </p>
+    
+    <p>
+        <%= f.select :status, ['トライ中','オンサイト','レッドポイント'] %>
+    </p>
+    
+    <p>
+        <%= f.text_field :comment %>
+    </p>
+    
+    <%= f.hidden_field :problem_id, value: @problem.id %>
+    <%= f.hidden_field :user_id, value: session[:user_id] %>
+    <%= f.submit '新規登録' %>
+<% end %>

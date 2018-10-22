@@ -19,7 +19,7 @@ class ProblemsController < ApplicationController
     if @problem.save
       flash[:success] = '課題を登録しました。'
       # byebug
-      redirect_to problems_path(spot_id: params[:problem][:spot_id], grade: params[:problem][:grade])
+      redirect_to spot_path(spot_id: params[:problem][:spot_id])
     else
       flash.now[:danger] = '課題の登録に失敗しました。'
       render :new

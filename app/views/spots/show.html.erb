@@ -6,6 +6,13 @@
 
 <h2>課題一覧</h2>
 
-<% GRADE_CORRESPONDENCE.each do |num,str| %>
-    <p><%= link_to str, problems_path(spot_id: @spot.id, grade: num) %></p>
+<p><%= link_to '新規課題を登録する', new_problem_path(spot_id: @spot.id.to_s, grade: @grade) %></p>
+
+<% @spot.problems.each do |problem| %>
+    <%= GRADE_CORRESPONDENCE[problem.grade] %><br>
+    <% problem.photos.each do |photo| %>
+        <%= image_tag photo, size: '300x300' %><br>
+    <% end %>
+    <%= link_to 'ログを作成する', new_log_path(problem_id: problem.id) %><br>
+    --------------------------------------<br>
 <% end %>

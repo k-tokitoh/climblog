@@ -1,7 +1,11 @@
 <h3>ユーザー名：<%= @user.name %></h3>
 
-<%= link_to 'ログを作成する', spots_path %>
+<%= "ログ: #{@user.logs.size} 件" %><br>
+<%= "トライ中: #{User.joins(:logs).where(id: @user.id, logs: {status: 'トライ中'}).size} 件" %><br>
+<%= "オンサイト: #{User.joins(:logs).where(id: @user.id, logs: {status: 'オンサイト'}).size} 件" %><br>
+<%= "レッドポイント: #{User.joins(:logs).where(id: @user.id, logs: {status: 'レッドポイント'}).size} 件" %><br>
 
+<%= link_to 'ログを作成する', spots_path %>
 
 <% @user.logs.each do |log| %>
     <p>

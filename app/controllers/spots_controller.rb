@@ -1,9 +1,10 @@
 class SpotsController < ApplicationController
-  
+
   def index
     @spots = Spot.all
+    @user = User.find(session[:user_id])
   end
-  
+
   def show
     @spot =Spot.find(params[:id])
     if GRADE_CORRESPONDENCE.values.include? params[:grade]
@@ -13,11 +14,11 @@ class SpotsController < ApplicationController
       @problems = @spot.problems
     end
   end
-  
+
   def new
     @spot = Spot.new
   end
-  
+
   def create
     @spot = Spot.new(spot_params)
 

@@ -6,7 +6,12 @@ class UsersController < ApplicationController
 
   def show
     @user = User.find(params[:id])
-    # byebug
+    if ['トライ中','オンサイト','レッドポイント'].include? params[:status]
+      @status = params[:status]
+      @logs = @user.logs.where(status: @status)
+    else
+      @logs = @user.logs
+    end
   end
 
   def create

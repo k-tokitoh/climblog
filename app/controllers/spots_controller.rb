@@ -6,6 +6,12 @@ class SpotsController < ApplicationController
   
   def show
     @spot =Spot.find(params[:id])
+    if GRADE_CORRESPONDENCE.values.include? params[:grade]
+      @grade = params[:grade]
+      @problems = @spot.problems.where(grade: GRADE_CORRESPONDENCE.invert[@grade])
+    else
+      @problems = @spot.problems
+    end
   end
   
   def new

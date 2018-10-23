@@ -4,5 +4,7 @@
     <%= link_to spot.name, spot.becomes(Spot) %><br>
 <% end %>
 
-ジム・岩場が見つからない場合は…
-<%= link_to 'ジム・岩場を新規登録する', new_spot_path %>
+-----------------------------------<br>
+<%= link_to 'ジム・岩場を新規登録する', new_spot_path %><br>
+
+<%= link_to 'ユーザートップに戻る', user_path(session[:user_id]) %>

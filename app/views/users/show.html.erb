@@ -7,16 +7,23 @@
 
 <%= link_to 'ログを作成する', spots_path %>
 
-<% @user.logs.each do |log| %>
-    <p>
+<%= form_tag user_path(@user), method: :get do %>
+    <%= select_tag :status, options_for_select([ '全て', 'トライ中', 'オンサイト', 'レッドポイント' ], @status) %>
+    <%= submit_tag 'filter' %>
+<% end %>
+
+<% @logs.each do |log| %>
+    <div class='log'>
         <% log.problem.photos.each do |photo| %>
             <%= image_tag photo, size: '300x300' %><br>
         <% end %>
-        <%= log.climbed_at %>
-        <%= log.status %><br>
-        <%= log.problem.spot.name %>
-        <%= GRADE_CORRESPONDENCE[log.problem.grade] %><br>
-        <%= log.comment %><br>
-    </p>
+        <p>
+            <%= log.climbed_at %>
+            <%= log.status %><br>
+            <%= log.problem.spot.name %>
+            <%= GRADE_CORRESPONDENCE[log.problem.grade] %><br>
+        </p>
+    </div>
+    <%= log.comment %><br>
     -----------------------------------------
 <% end %>

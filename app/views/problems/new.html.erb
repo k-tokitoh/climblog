@@ -31,3 +31,5 @@
     <%= f.hidden_field :spot_id, value: @spot.id %>
     <%= f.submit '新規登録' %>
 <% end %>
+
+<%= link_to '課題一覧に戻る', spot_path(@problem.spot) %>

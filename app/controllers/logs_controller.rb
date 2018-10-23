@@ -13,7 +13,7 @@ class LogsController < ApplicationController
     if @log.save
       flash[:success] = 'ログを登録しました。'
       problem = Problem.find(params[:log][:problem_id])
-      redirect_to spot_path(spot_id: problem.spot.id)
+      redirect_to spot_path(problem.spot)
     else
       flash.now[:danger] = 'ログの登録に失敗しました。'
       @problem = Problem.find(params[:log][:problem_id])

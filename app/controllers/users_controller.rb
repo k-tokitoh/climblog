@@ -12,6 +12,9 @@ class UsersController < ApplicationController
     else
       @logs = @user.logs
     end
+    @max_grade = ['オンサイト','レッドポイント'].map do |s|
+      [s, User.where(id: @user.id).joins(:logs).where(logs: {status: s}).joins("INNER JOIN problems ON logs.problem_id = problems.id").maximum('grade')]
+    end.to_h
   end
 
   def create
@@ -19,7 +22,7 @@ class UsersController < ApplicationController
 
     if @user.save
       flash[:success] = 'ユーザを登録しました。'
-      redirect_to @user
+      redirect_to root
     else
       flash.now[:danger] = 'ユーザの登録に失敗しました。'
       render :new

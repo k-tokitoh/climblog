@@ -36,8 +36,13 @@ gem 'bcrypt', '~> 3.1.7'
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.1.0', require: false
 
+# S3の利用
 gem 'aws-sdk-s3', require: false
+# コンソールでのレコードの表示を整形
 gem 'hirb'
+# 画像をスライド表示
+gem 'bxslider-rails'
+gem 'jquery-rails'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

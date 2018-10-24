@@ -27,14 +27,16 @@ class ProblemsController < ApplicationController
   end
 
   def destroy
-    Problem.find(params[:id].to_i).destroy
-    redirect_to problems_path(spot_id: params[:spot_id], grade: params[:grade])
+    problem = Problem.find(params[:id])
+    spot = problem.spot
+    problem.destroy
+    redirect_to spot_path(spot)
   end
 
   private
 
   def problem_params
-    params.require(:problem).permit(:grade, :type, :spot_id, :name, :description, :photos)
+    params.require(:problem).permit(:grade, :type, :spot_id, :name, :description, photos: [])
   end
 
 end

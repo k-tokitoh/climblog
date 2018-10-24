@@ -13,6 +13,7 @@ class SpotsController < ApplicationController
     else
       @problems = @spot.problems
     end
+    @user = User.find(session[:user_id])
   end
 
   def new

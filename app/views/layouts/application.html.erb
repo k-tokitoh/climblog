@@ -14,8 +14,14 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
   </head>
 
+  <header>
+    <%= link_to 'Climb Log', '/' %>
+  </header>
+  
   <body>
     <%= render 'layouts/flash_messages' %>
-    <%= yield %>
+    <div id='container'>
+      <%= yield %>
+    </div>
   </body>
 </html>

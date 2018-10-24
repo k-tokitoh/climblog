@@ -14,3 +14,11 @@
 //= require activestorage
 //= require turbolinks
 //= require_tree .
+//= require jquery
+//= require bxslider
+
+$(document).on('turbolinks:load',function(){
+  $('.bxslider').bxSlider({
+      pager: false,
+  });
+});

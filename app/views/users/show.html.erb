@@ -1,5 +1,3 @@
-<h3>User: <%= @user.name %></h3>
-
 <%= "ログ: #{@user.logs.size} 件" %><br>
 <%= "Not yet: #{User.joins(:logs).where(id: @user.id, logs: {status: 'トライ中'}).size} 件" %><br>
 <%= "OS: #{User.joins(:logs).where(id: @user.id, logs: {status: 'オンサイト'}).size} 件" %><br>
@@ -35,10 +33,11 @@
             </p>
         </div>
         <p class='description'>
-            <%= log.problem.spot.name %>
+            <%= link_to log.problem.spot.name, spot_path(log.problem.spot) %>
             <%= GRADE_CORRESPONDENCE[log.problem.grade] %><br>
             <%= log.comment %><br>
             <%= log.climbed_at %>
+            <%= link_to 'ログを作成する', new_log_path(problem_id: log.problem.id) %>
             <%= link_to 'ログを削除する', log, method: :delete, data: {confirm: '本当にログを削除しますか？'} %>
         </p>
     </div>

@@ -43,6 +43,7 @@ gem 'hirb'
 # 画像をスライド表示
 gem 'bxslider-rails'
 gem 'jquery-rails'
+gem 'slim'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

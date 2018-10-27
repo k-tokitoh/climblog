@@ -1,4 +1,5 @@
 class LogsController < ApplicationController
+  
   def new
     # @log = Log.new
     @problem = Problem.find(params[:problem_id])
@@ -12,8 +13,9 @@ class LogsController < ApplicationController
 
     if @log.save
       flash[:success] = 'ログを登録しました。'
-      problem = Problem.find(params[:log][:problem_id])
-      redirect_to spot_path(problem.spot)
+      # problem = Problem.find(params[:log][:problem_id])
+      # redirect_to controller: :logs, action: :create
+      redirect_to :root
     else
       flash.now[:danger] = 'ログの登録に失敗しました。'
       @problem = Problem.find(params[:log][:problem_id])

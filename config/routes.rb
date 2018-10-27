@@ -6,9 +6,9 @@ Rails.application.routes.draw do
     delete 'logout', to: 'sessions#destroy'
     
     resources :users
+    post 'logs',to: 'logs#create', as: 'create_log'
     resources :logs
     resources :spots
-    # get 'problems/:spot_id/:grade', to: 'problems#index'
     resources :problems
     
 end

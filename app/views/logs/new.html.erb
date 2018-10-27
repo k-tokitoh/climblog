@@ -1,28 +1,4 @@
 <h1>新規ログ登録</h1>
 
-<%= form_for(@log) do |f| %>
-    <%= render 'layouts/error_messages', model: f.object %>
+<%= render 'layouts/log_form' %>
 
-    <p>
-        <%= f.date_field :climbed_at %>
-    </p>
-    
-    <p>
-        <%= f.select :status, STATUS.invert  %>
-    </p>
-    
-    <p>
-        <%= f.label :photos, '画像' %>
-        <%= f.file_field :photos, multiple: true %>
-    </p>
-    
-    <p>
-        <%= f.text_field :comment %>
-    </p>
-    
-    <%= f.hidden_field :problem_id, value: @problem.id %>
-    <%= f.hidden_field :user_id, value: session[:user_id] %>
-    <%= f.submit '新規登録' %>
-<% end %>
-
-<%= link_to '課題一覧に戻る', spot_path(@problem.spot) %>

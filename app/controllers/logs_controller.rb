@@ -1,4 +1,5 @@
 class LogsController < ApplicationController
+  # protect_from_forgery except: :create
   
   def new
     # @log = Log.new
@@ -8,19 +9,38 @@ class LogsController < ApplicationController
   end
 
   def create
-    @log = Log.new(log_params)
-    # @user.created_at = Time.zone.local(params["date(1i)"].to_i, params[:created_at]["date(2i)"].to_i, params[:created_at]["date(3i)"].to_i)
-
-    if @log.save
-      flash[:success] = 'ログを登録しました。'
-      # problem = Problem.find(params[:log][:problem_id])
-      # redirect_to controller: :logs, action: :create
-      redirect_to :root
+    # 新規課題の場合
+    if params[:problem].present?
+      @problem = Problem.new(problem_params)
+      @log = Log.new(log_params)
+      
+      if @problem.save
+        @log.problem_id = @problem.id
+        if @log.save
+          redirect_to spot_path(@problem.spot)
+        end
+      end
+      render template: 'problems/new'
+          
+    # 既存課題の場合
     else
-      flash.now[:danger] = 'ログの登録に失敗しました。'
-      @problem = Problem.find(params[:log][:problem_id])
-      render :new
+      @log = Log.new(log_params)
+      if @log.save
+        flash[:success] = 'ログを登録しました。'
+        # problem = Problem.find(params[:log][:problem_id])
+        # redirect_to controller: :logs, action: :create
+        # byebug
+        redirect_to spot_path(@log.problem.spot)
+      else
+        flash.now[:danger] = 'ログの登録に失敗しました。'
+        @problem = Problem.find(params[:log][:problem_id])
+        render :new
+      end
     end
+
+    
+
+    
   end
   
   def destroy
@@ -32,5 +52,9 @@ class LogsController < ApplicationController
 
   def log_params
     params.require(:log).permit("climbed_at(1i)", "climbed_at(2i)", "climbed_at(3i)", :status, :comment, :problem_id, :user_id, photos: [])
+  end
+  
+  def problem_params
+    params.require(:problem).permit(:id, :grade, :type, :spot_id, :name, :description, photos: [])
   end
 end

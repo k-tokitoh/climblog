@@ -1,5 +1,4 @@
 class ProblemsController < ApplicationController
-  protect_from_forgery except: :create
 
   def index
     # byebug
@@ -15,21 +14,21 @@ class ProblemsController < ApplicationController
     @log = @problem.logs.new
   end
 
-  def create
-    @problem = Problem.new(problem_params)
-    # byebug
-    if @problem.save
-      flash[:success] = '課題を登録しました。'
-      # @log = params[:log]
-      @redirect_path = create_log_path(log: log_params)
-      render "shared/redirect_form", layout: false
-      # redirect_to :root
-    else
-      flash.now[:danger] = '課題の登録に失敗しました。'
-      @spot = Spot.find(params[:spot][:id])
-      # byebug
-      render :new
-    end
+  # def create
+  #   @problem = Problem.new(problem_params)
+  #   # byebug
+  #   if @problem.save
+  #     flash[:success] = '課題を登録しました。'
+  #     # @log = params[:log]
+  #     @redirect_path = create_log_path(log: log_params)
+  #     render "shared/redirect_form", layout: false
+  #     # redirect_to :root
+  #   else
+  #     flash.now[:danger] = '課題の登録に失敗しました。'
+  #     @spot = Spot.find(params[:spot][:id])
+  #     # byebug
+  #     render :new
+  #   end
   end
 
   def destroy
@@ -43,10 +42,6 @@ class ProblemsController < ApplicationController
 
   def problem_params
     params.require(:problem).permit(:id, :grade, :type, :spot_id, :name, :description, photos: [])
-  end
-  
-  def log_params
-    params.require(:log).permit("climbed_at(1i)", "climbed_at(2i)", "climbed_at(3i)", :status, :comment, :problem_id, :user_id, photos: [])
   end
 
 end

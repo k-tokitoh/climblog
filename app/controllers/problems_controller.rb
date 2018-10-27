@@ -29,7 +29,7 @@ class ProblemsController < ApplicationController
   #     # byebug
   #     render :new
   #   end
-  end
+  # end
 
   def destroy
     problem = Problem.find(params[:id])

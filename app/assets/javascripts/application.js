@@ -21,4 +21,18 @@ $(document).on('turbolinks:load',function(){
   $('.bxslider').bxSlider({
       pager: false,
   });
+  
+  var menuBottom;
+  
+  $(window).on('scroll',function(){     
+      menuBottom = $('#menu').height();
+      if($(window).scrollTop() > menuBottom){
+          $('#menu').addClass('fixed');   
+      }
+      else{
+          $('#menu').removeClass('fixed');   
+      }
+  });
+   
+  $(window).trigger('scroll');
 });

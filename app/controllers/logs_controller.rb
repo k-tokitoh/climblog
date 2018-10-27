@@ -1,6 +1,14 @@
 class LogsController < ApplicationController
   # protect_from_forgery except: :create
   
+  def index
+    if session[:user_id]
+      redirect_to user_url(session[:user_id].to_i)
+    end
+    @logs = Log.includes(:user).all
+    # byebug
+  end
+  
   def new
     # @log = Log.new
     @problem = Problem.find(params[:problem_id])

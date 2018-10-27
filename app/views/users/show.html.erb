@@ -1,3 +1,4 @@
+<%= link_to 'Logout', logout_path, method: :delete %>
 <%= "ログ: #{@user.logs.size} 件" %><br>
 <%= "Not yet: #{User.joins(:logs).where(id: @user.id, logs: {status: 'トライ中'}).size} 件" %><br>
 <%= "OS: #{User.joins(:logs).where(id: @user.id, logs: {status: 'オンサイト'}).size} 件" %><br>
@@ -13,32 +14,4 @@
     <%= submit_tag :filter %>
 <% end %>
 
-<% @logs.each do |log| %>
-    <div class='log'>
-        <div class='slider'>
-            <ul class='bxslider'>
-                <!--このログに紐づいた写真を表示する-->
-                <% log.photos.each do |photo| %>
-                    <li><%= image_tag photo %></li>
-                <% end %>
-                <!--このログに紐づいた課題に紐づいた他の写真を表示する-->
-                <% log.problem.logs.where.not(id: log.id).each do |other_log| %>
-                    <% other_log.photos.each do |other_photo| %>
-                        <li><%= image_tag other_photo %></li>
-                    <% end %>
-                <% end %>
-            </ul>
-            <p class='status'>
-                <%= STATUS[log.status.to_i] %>
-            </p>
-        </div>
-        <p class='description'>
-            <%= link_to log.problem.spot.name, spot_path(log.problem.spot) %>
-            <%= GRADE_CORRESPONDENCE[log.problem.grade] %><br>
-            <%= log.comment %><br>
-            <%= log.climbed_at %>
-            <%= link_to 'ログを作成する', new_log_path(problem_id: log.problem.id) %>
-            <%= link_to 'ログを削除する', log, method: :delete, data: {confirm: '本当にログを削除しますか？'} %>
-        </p>
-    </div>
-<% end %>
+<%= render 'logs/feed' %>

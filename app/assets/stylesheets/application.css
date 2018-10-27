@@ -15,9 +15,70 @@
  *= require_self
  */
  
-@media screen and (min-width:360px) {
+header {
+  /*position: absolute;*/
+  width: 100%;
+  background-color: #fff;
+}
+
+header #menu {
+  width: 100%;
+  display: table;
+  table-layout: fixed;
+  padding: 3px 0 3px;
+  top: 0;
+  background-color: #fff;
+  z-index: 99;
+}
+
+header img {
+  width: 40%;
+  /*display: inline;*/
+  margin: 0 30% 0 ;
+}
+
+header .fixed {
+  position: fixed;
+}
+
+header .icon {
+  /*float: right;*/
+  display: table-cell;
+  /*font-size: 12vw;*/
+  font-size: 10vw;
+  /*margin-top: 1%;*/
+  /*margin-right: 4%;*/
+  text-align: center;
+  vertical-align: middle;
+}
+
+#container {
+  background-color: #FFF;
+  /*padding-top: 16%;*/
+  width: 100%;
+}
+ 
+@media screen and (min-width:400px) {
+
+  body {
+    background-color: #f5f5f5;
+  }
+
+  header {
+    width: 400px;
+    margin: 0 auto 0;
+  }
+
+  header #menu {
+    width: 400px;
+  }
+
   #container {
-    width: 360px;
+    width: 400px;
     margin:0 auto 0;
+  }
+  
+  header .icon {
+    font-size:40px;
   }
 }

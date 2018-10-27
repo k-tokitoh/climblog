@@ -41,15 +41,23 @@ header .fixed {
   position: fixed;
 }
 
-header .icon {
-  /*float: right;*/
+header #menu {
+  margin:0;
+}
+
+header li {
   display: table-cell;
-  /*font-size: 12vw;*/
-  font-size: 10vw;
-  /*margin-top: 1%;*/
-  /*margin-right: 4%;*/
   text-align: center;
   vertical-align: middle;
+}
+
+header li a {
+  text-decoration: none;
+  color: #000;
+}
+
+header li .icon {
+  font-size: 10vw;
 }
 
 #container {
@@ -78,7 +86,7 @@ header .icon {
     margin:0 auto 0;
   }
   
-  header .icon {
+  header li .icon {
     font-size:40px;
   }
 }

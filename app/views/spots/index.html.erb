@@ -1,4 +1,4 @@
-<h1>ジム・岩場一覧</h1>
+<h4>行ってきたジム・岩場はどこですか？</h4>
 
 <% @spots.each do |spot| %>
     <%= link_to spot.name, spot.becomes(Spot) %><br>
@@ -6,5 +6,3 @@
 
 -----------------------------------<br>
 <%= link_to 'ジム・岩場を新規登録する', new_spot_path %><br>
-
-<%= link_to 'ユーザートップに戻る', user_path(@user) %>

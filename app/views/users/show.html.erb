@@ -19,8 +19,15 @@
     <div class='log'>
         <div class='slider'>
             <ul class='bxslider'>
-                <% log.problem.photos.each do |photo| %>
-                    <li><%= image_tag photo %><?li>
+                <!--このログに紐づいた写真を表示する-->
+                <% log.photos.each do |photo| %>
+                    <li><%= image_tag photo %></li>
+                <% end %>
+                <!--このログに紐づいた課題に紐づいた他の写真を表示する-->
+                <% log.problem.logs.where.not(id: log.id).each do |other_log| %>
+                    <% other_log.photos.each do |other_photo| %>
+                        <li><%= image_tag other_photo %></li>
+                    <% end %>
                 <% end %>
             </ul>
             <p class='status'>
@@ -32,6 +39,7 @@
             <%= GRADE_CORRESPONDENCE[log.problem.grade] %><br>
             <%= log.comment %><br>
             <%= log.climbed_at %>
+            <%= link_to 'ログを削除する', log, method: :delete, data: {confirm: '本当にログを削除しますか？'} %>
         </p>
     </div>
 <% end %>

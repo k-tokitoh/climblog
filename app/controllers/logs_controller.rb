@@ -20,10 +20,15 @@ class LogsController < ApplicationController
       render :new
     end
   end
+  
+  def destroy
+    Log.find(params[:id]).destroy
+    redirect_to user_path(User.find(session[:user_id]))
+  end
 
   private
 
   def log_params
-    params.require(:log).permit("climbed_at(1i)", "climbed_at(2i)", "climbed_at(3i)", :status, :comment, :problem_id, :user_id)
+    params.require(:log).permit("climbed_at(1i)", "climbed_at(2i)", "climbed_at(3i)", :status, :comment, :problem_id, :user_id, photos: [])
   end
 end

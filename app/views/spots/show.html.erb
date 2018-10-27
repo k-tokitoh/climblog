@@ -21,12 +21,21 @@
             <!--現在のユーザーにとってのその課題のstatusを表示したい-->
             <%= GRADE_CORRESPONDENCE[problem.grade] %><br>
             <ul class='bxslider'>
-                <% problem.photos.each do |photo| %>
-                    <li><%= image_tag photo %></li>
+                <% problem.logs.each do |log| %>
+                    <% log.photos.each do |photo| %>
+                        <li><%= image_tag photo %></li>
+                    <% end %>
+                <% end %>
+            
+                
+                <% if false %>
+                    <% problem.photos.each do |photo| %>
+                        <li><%= image_tag photo %></li>
+                    <% end %>
                 <% end %>
             </ul>
             <%= link_to 'ログを作成する', new_log_path(problem_id: problem.id) %><br>
-            <%= link_to '課題を削除する', problem_path(problem), method: :delete %><br>
+            <%= link_to '課題を削除する', problem_path(problem), method: :delete, data: {confirm: '本当に課題を削除しますか？'} %><br>
             --------------------------------------<br>
         </div>
     <% end %>

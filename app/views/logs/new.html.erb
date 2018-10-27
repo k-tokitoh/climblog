@@ -12,6 +12,11 @@
     </p>
     
     <p>
+        <%= f.label :photos, '画像' %>
+        <%= f.file_field :photos, multiple: true %>
+    </p>
+    
+    <p>
         <%= f.text_field :comment %>
     </p>
     

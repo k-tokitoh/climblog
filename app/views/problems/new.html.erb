@@ -20,15 +20,17 @@
     </p>
     
     <p>
-        <%= label :problem, :description, '説明' %>
+        <%= label :problem, :description, '課題概要' %>
         <%= text_field :problem, :description %>
     </p>
     
     <p>
+        <%= label :log, :climbed_at, '日付' %>
         <%= date_field :log, :climbed_at %>
     </p>
     
     <p>
+        <%= label :log, :status, '状況' %>
         <%= select :log, :status, STATUS.invert  %>
     </p>
     
@@ -38,6 +40,7 @@
     </p>
     
     <p>
+        <%= label :log, :comment, 'コメント' %>
         <%= text_field :log, :comment %>
     </p>
 

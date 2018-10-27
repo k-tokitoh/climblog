@@ -7,8 +7,6 @@
 <%= "OSグレード： #{GRADE_CORRESPONDENCE[@max_grade['オンサイト']]}" %><br>
 <%= "RPグレード： #{GRADE_CORRESPONDENCE[@max_grade['レッドポイント']]}" %><br>
 
-<%= link_to 'ログを作成する', spots_path %>
-
 <%= form_tag user_path(@user), method: :get do %>
     <%= select_tag :status, options_for_select({'All'=>nil}.merge(STATUS.invert), @status) %>
     <%= submit_tag :filter %>

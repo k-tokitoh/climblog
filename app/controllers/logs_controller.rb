@@ -6,14 +6,11 @@ class LogsController < ApplicationController
       redirect_to user_url(session[:user_id].to_i)
     end
     @logs = Log.includes(:user).all
-    # byebug
   end
   
   def new
-    # @log = Log.new
     @problem = Problem.find(params[:problem_id])
     @log = Problem.find(params[:problem_id]).logs.build
-    # byebug
   end
 
   def create
@@ -21,6 +18,7 @@ class LogsController < ApplicationController
     if params[:problem].present?
       @problem = Problem.new(problem_params)
       @log = Log.new(log_params)
+      @spot = @problem.spot
       
       if @problem.save
         @log.problem_id = @problem.id
@@ -59,10 +57,11 @@ class LogsController < ApplicationController
   private
 
   def log_params
-    params.require(:log).permit("climbed_at(1i)", "climbed_at(2i)", "climbed_at(3i)", :status, :comment, :problem_id, :user_id, photos: [])
+    # params.require(:log).permit("climbed_at(1i)", "climbed_at(2i)", "climbed_at(3i)", :status, :comment, :problem_id, :user_id, photos: [])
+    params.require(:log).permit("climbed_at(1i)", "climbed_at(2i)", "climbed_at(3i)", :status, :comment, :problem_id, :user_id)
   end
   
   def problem_params
-    params.require(:problem).permit(:id, :grade, :type, :spot_id, :name, :description, photos: [])
+    params.require(:problem).permit(:id, :grade, :type, :spot_id, :name, :description)
   end
 end

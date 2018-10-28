@@ -23,6 +23,7 @@ class LogsController < ApplicationController
       
       if @problem.save
         @log.problem_id = @problem.id
+        @log.user_id = session[:user_id]
         if @log.save
           redirect_to spot_path(@problem.spot)
         end
@@ -58,8 +59,8 @@ class LogsController < ApplicationController
   private
 
   def log_params
-    # params.require(:log).permit("climbed_at(1i)", "climbed_at(2i)", "climbed_at(3i)", :status, :comment, :problem_id, :user_id, photos: [])
-    params.require(:log).permit("climbed_at(1i)", "climbed_at(2i)", "climbed_at(3i)", :status, :comment, :problem_id, :user_id)
+    params.require(:log).permit("climbed_at(1i)", "climbed_at(2i)", "climbed_at(3i)", :status, :comment, :problem_id, :user_id, photos: [])
+    # params.require(:log).permit("climbed_at(1i)", "climbed_at(2i)", "climbed_at(3i)", :status, :comment, :problem_id, :user_id)
   end
   
   def problem_params

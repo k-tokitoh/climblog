@@ -14,6 +14,7 @@ class LogsController < ApplicationController
   end
 
   def create
+    # byebug
     # 新規課題の場合
     if params[:problem].present?
       @problem = Problem.new(problem_params)

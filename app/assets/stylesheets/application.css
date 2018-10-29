@@ -65,6 +65,10 @@ header li .icon {
   /*padding-top: 16%;*/
   width: 100%;
 }
+
+/*#canvas {*/
+/*  float: left;*/
+/*}*/
  
 @media screen and (min-width:400px) {
 

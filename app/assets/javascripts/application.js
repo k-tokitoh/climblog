@@ -73,6 +73,11 @@ $(document).on('turbolinks:load',function(){
         var context = canvas.getContext('2d');
         var img = new Image();
         
+        context.strokeStyle = "#000000";
+        context.lineWidth = 5;
+        context.lineJoin = "round";
+        context.lineCap = "round";
+        
         // 画像のソースを取得
         img.src = e.target.result;
         
@@ -95,9 +100,6 @@ $(document).on('turbolinks:load',function(){
           // console.log(color_image.data);
           // var toString = Object.prototype.toString
 
-          // console.log(toString.call(color_image.data));
-          
-          // console.log(color_image.data).class;
           mono_image = new ImageData(
             new Uint8ClampedArray(color_image.data),
             color_image.width,
@@ -110,9 +112,31 @@ $(document).on('turbolinks:load',function(){
             // d[i+3]に格納されたα値は変更しない
           }
           
+          // 実験：画像のある位置より右側だけ黒に塗りつぶす
+          // for (var i = 0; i < color_image.data.length; i+=4) {
+          //   // console.log(i);
+          //   if (i/4 % color_image.width >200) {
+          //     color_image.data[i] = 0;
+          //     color_image.data[i+1] = 0;
+          //     color_image.data[i+2] = 0;
+          //   }
+          // }
+
+          // 実験：画像のある位置より右側だけカラーにする
+          // for (var i = 0; i < color_image.data.length; i+=4) {
+          //   // console.log(i);
+          //   if (i/4 % color_image.width >200) {
+          //     mono_image.data[i] = color_image.data[i];
+          //     mono_image.data[i+1] = color_image.data[i+1];
+          //     mono_image.data[i+2] = color_image.data[i+2];
+          //   }
+          // }
+          
           // 計算結果でCanvasの表示内容を更新する。
           // color_image.data = mono
           context.putImageData(mono_image, 0, 0);
+          
+
           
           // マウスがクリックされている/いないという状態を取得する
           var mousedown_flag = false;
@@ -125,9 +149,59 @@ $(document).on('turbolinks:load',function(){
           
           // マウスの位置情報を取得する
           $('#canvas').on('mousemove',function(e){
-            console.log(e.pageX, e.pageY, mousedown_flag)
+          
+            // カーソルのあるピクセルを黒に塗りつぶす
+            //   var pixel = context.getImageData(e.offsetX, e.offsetY, 1, 1);
+            //   console.log(e.offsetX, e.offsetY, mousedown_flag, pixel.data[0], pixel.data[1], pixel.data[2],pixel);
+            //   black_image = new ImageData(
+            //   new Uint8ClampedArray([0,0,0,160]),
+            //   1,
+            //   1
+            // );
+            //   context.putImageData(black_image,e.offsetX, e.offsetY);
+            
+            // カーソルのあるピクセルをカラーにする
+            // var current_pixel = context.getImageData(e.offsetX, e.offsetY, 1, 1);
+            // console.log(e.offsetX, e.offsetY, mousedown_flag, pixel.data[0], pixel.data[1], pixel.data[2],pixel);
+            // var current_pixel_index = (e.offsetY * mono_image.width + e.offsetX)*4
+            // console.log(current_pixel_index);
+            // color_pixel = new ImageData(
+            //   new Uint8ClampedArray([
+            //     color_image.data[current_pixel_index],
+            //     color_image.data[current_pixel_index+1],
+            //     color_image.data[current_pixel_index+2],
+            //     color_image.data[current_pixel_index+3]
+            //   ]),1,1
+            // );
+            // context.putImageData(color_pixel,e.offsetX, e.offsetY);
+
+            // カーソルを基点として、縦幅1px、横幅8pxの領域をカラーにする
+            // var current_pixel_index = (e.offsetY * mono_image.width + e.offsetX)*4
+            // // console.log(current_pixel_index);
+            // color_area_data = color_image.data.slice(current_pixel_index,current_pixel_index+32)
+            // color_area = new ImageData(
+            //   new Uint8ClampedArray(color_area_data),8,1
+            // );
+            // context.putImageData(color_area,e.offsetX, e.offsetY);
+            
+            // カーソルを中心として、縦幅8px、横幅8pxの領域をカラーにする
+            // var current_pixel_index = (e.offsetY * mono_image.width + e.offsetX)*4
+            // console.log(current_pixel_index);
+            if (mousedown_flag == true) {
+              var color_area_data = new Array();
+              for (var row = e.offsetY-4; row < e.offsetY+4; row++ ){
+                Array.prototype.push.apply(color_area_data, color_image.data.slice((row*mono_image.width+e.offsetX-4)*4,(row*mono_image.width+e.offsetX+4)*4));
+                // color_area_data = color_image.data.slice(current_pixel_index,current_pixel_index+32)
+              }
+              
+              color_area = new ImageData(
+                new Uint8ClampedArray(color_area_data),8,8
+              );
+              context.putImageData(color_area,e.offsetX-4, e.offsetY-4);
+            }
           });
           
+
           
           
         }, false);

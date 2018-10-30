@@ -1,32 +1,15 @@
-<h3>ユーザー名：<%= @user.name %></h3>
-
+<%= link_to 'Logout', logout_path, method: :delete %>
 <%= "ログ: #{@user.logs.size} 件" %><br>
-<%= "トライ中: #{User.joins(:logs).where(id: @user.id, logs: {status: 'トライ中'}).size} 件" %><br>
-<%= "オンサイト: #{User.joins(:logs).where(id: @user.id, logs: {status: 'オンサイト'}).size} 件" %><br>
-<%= "レッドポイント: #{User.joins(:logs).where(id: @user.id, logs: {status: 'レッドポイント'}).size} 件" %><br>
+<%= "Not yet: #{User.joins(:logs).where(id: @user.id, logs: {status: 'トライ中'}).size} 件" %><br>
+<%= "OS: #{User.joins(:logs).where(id: @user.id, logs: {status: 'オンサイト'}).size} 件" %><br>
+<%= "RP: #{User.joins(:logs).where(id: @user.id, logs: {status: 'レッドポイント'}).size} 件" %><br>
 
 <%= "OSグレード： #{GRADE_CORRESPONDENCE[@max_grade['オンサイト']]}" %><br>
 <%= "RPグレード： #{GRADE_CORRESPONDENCE[@max_grade['レッドポイント']]}" %><br>
 
-<%= link_to 'ログを作成する', spots_path %>
-
 <%= form_tag user_path(@user), method: :get do %>
-    <%= select_tag :status, options_for_select([ '全て', 'トライ中', 'オンサイト', 'レッドポイント' ], @status) %>
-    <%= submit_tag 'filter' %>
+    <%= select_tag :status, options_for_select({'All'=>nil}.merge(STATUS.invert), @status) %>
+    <%= submit_tag :filter %>
 <% end %>
 
-<% @logs.each do |log| %>
-    <div class='log'>
-        <% log.problem.photos.each do |photo| %>
-            <%= image_tag photo, size: '300x300' %><br>
-        <% end %>
-        <p>
-            <%= log.climbed_at %>
-            <%= log.status %><br>
-            <%= log.problem.spot.name %>
-            <%= GRADE_CORRESPONDENCE[log.problem.grade] %><br>
-        </p>
-    </div>
-    <%= log.comment %><br>
-    -----------------------------------------
-<% end %>
+<%= render 'logs/feed' %>

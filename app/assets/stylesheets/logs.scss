@@ -1,3 +1,28 @@
 // Place all the styles related to the logs controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+.log .slider {
+    position: relative;
+}
+
+.log .slider .status {
+  position: absolute;
+  background-color: orange;
+  color: white;
+  top: 10px;
+  left: 10px;
+  }
+
+.log .bx-wrapper{
+    border: 0px;
+    margin: 0px;
+}
+
+.log img {
+    width: 100%;
+}
+
+.log .description {
+    margin-bottom: 30px;
+}

@@ -1,25 +1,33 @@
-<h2><%= "#{@spot.type}情報" %></h2>
-<p><%= @spot.name %></p>
-<p><%= @spot.prefecture %></p>
-<p><%= @spot.adress %></p>
-<p><%= @spot.url %></p>
+<h1><%= @spot.name %></h1>
 
-<%= link_to 'ジム・岩場一覧に戻る', spots_path %>
-
-<h2>課題一覧</h2>
-
-<p><%= link_to '新規課題を登録する', new_problem_path(spot_id: @spot.id.to_s, grade: @grade) %></p>
+<p><%= link_to '未掲載課題のログを登録する', new_problem_path(spot_id: @spot.id.to_s, grade: @grade) %></p>
 
 <%= form_tag spot_path(@spot), method: :get do %>
     <%= select_tag :grade, options_for_select(GRADE_CORRESPONDENCE.values.unshift('全て'), @grade) %>
     <%= submit_tag 'filter' %>
 <% end %>
 
-<% @problems.each do |problem| %>
-    <%= GRADE_CORRESPONDENCE[problem.grade] %><br>
-    <% problem.photos.each do |photo| %>
-        <%= image_tag photo, size: '300x300' %><br>
+
+    <% @problems.each do |problem| %>
+        <div class='problem'>
+            <!--現在のユーザーにとってのその課題のstatusを表示したい-->
+            <%= GRADE_CORRESPONDENCE[problem.grade] %><br>
+            <ul class='bxslider'>
+                <% problem.logs.each do |log| %>
+                    <% log.photos.each do |photo| %>
+                        <li><%= image_tag photo %></li>
+                    <% end %>
+                <% end %>
+            
+                
+                <% if false %>
+                    <% problem.photos.each do |photo| %>
+                        <li><%= image_tag photo %></li>
+                    <% end %>
+                <% end %>
+            </ul>
+            <%= link_to 'ログを作成する', new_log_path(problem_id: problem.id) %><br>
+            <%= link_to '課題を削除する', problem_path(problem), method: :delete, data: {confirm: '本当に課題を削除しますか？'} %><br>
+            --------------------------------------<br>
+        </div>
     <% end %>
-    <%= link_to 'ログを作成する', new_log_path(problem_id: problem.id) %><br>
-    --------------------------------------<br>
-<% end %>

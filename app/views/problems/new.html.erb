@@ -1,35 +1,52 @@
-<h1>新規課題登録</h1>
+<!--あるspotにおける新規課題・ログ登録画面-->
 
-<%= form_for(@problem) do |f| %>
-    <%= render 'layouts/error_messages', model: f.object %>
+<%= "スポット名：#{@spot.name}" %>
+
+<%= form_tag(logs_path, method: :post, multipart: true) do %>
 
     <p>
-        <%= f.label :type, 'タイプ' %>
-        <%= f.select :type, ['IndoorProblem', 'OutdoorProblem'] %>
+        <%= label :problem, :type, 'タイプ' %>
+        <%= select :problem, :type, ['IndoorProblem', 'OutdoorProblem'] %>
     </p>
     
     <p>
-        <%= f.label :grade, 'グレード' %>
-        <%= f.select :grade, GRADE_CORRESPONDENCE.invert %>
+        <%= label :problem, :grade, 'グレード' %>
+        <%= select :problem, :grade, GRADE_CORRESPONDENCE.invert %>
     </p>
     
     <p>
-        <%= f.label :name, '名称（外岩のみ）' %>
-        <%= f.text_field :name %>
+        <%= label :problem, :name, '名称（外岩のみ）' %>
+        <%= text_field :problem, :name %>
     </p>
     
     <p>
-        <%= f.label :photos, '画像' %>
-        <%= f.file_field :photos %>
+        <%= label :problem, :description, '課題概要' %>
+        <%= text_field :problem, :description %>
+    </p>
+
+    <p>
+        <%= label :log, :climbed_at, '日付' %>
+        <%= date_field :log, :climbed_at %>
     </p>
     
     <p>
-        <%= f.label :description, '説明' %>
-        <%= f.text_field :description %>
+        <%= label :log, :status, '状況' %>
+        <%= select :log, :status, STATUS.invert  %>
     </p>
     
-    <%= f.hidden_field :spot_id, value: @spot.id %>
-    <%= f.submit '新規登録' %>
+    <p>
+        <%= label :log, :photos, '画像' %>
+        <%= file_field :log, :photos, multiple: true %>
+    </p>
+    
+    <p>
+        <%= label :log, :comment, 'コメント' %>
+        <%= text_field :log, :comment %>
+    </p>
+    
+    <%= hidden_field :problem, :spot_id, value: @spot.id %>
+
+    <%= hidden_field :log, :user_id, value: session[:user_id] %>
+
+    <%= submit_tag '新規登録' %>
 <% end %>
-
-<%= link_to '課題一覧に戻る', spot_path(@problem.spot) %>

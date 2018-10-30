@@ -2,7 +2,7 @@
 
 <%= "スポット名：#{@spot.name}" %>
 
-<%= form_tag(logs_path, method: :post) do %>
+<%= form_tag(logs_path, method: :post, multipart: true) do %>
 
     <p>
         <%= label :problem, :type, 'タイプ' %>
@@ -23,7 +23,7 @@
         <%= label :problem, :description, '課題概要' %>
         <%= text_field :problem, :description %>
     </p>
-    
+
     <p>
         <%= label :log, :climbed_at, '日付' %>
         <%= date_field :log, :climbed_at %>
@@ -43,8 +43,10 @@
         <%= label :log, :comment, 'コメント' %>
         <%= text_field :log, :comment %>
     </p>
-
+    
     <%= hidden_field :problem, :spot_id, value: @spot.id %>
+
+    <%= hidden_field :log, :user_id, value: session[:user_id] %>
 
     <%= submit_tag '新規登録' %>
 <% end %>

@@ -18,14 +18,17 @@ class LogsController < ApplicationController
     # 新規課題の場合
     if params[:problem].present?
       @problem = Problem.new(problem_params)
-      @log = Log.new(log_params)
+      # @log = Log.new(log_params)
       @spot = @problem.spot
       
       if @problem.save
+        # @log = @problem.logs.new(log_params)
+        @log = Log.new(log_params)
         @log.problem_id = @problem.id
-        @log.user_id = session[:user_id]
+        # @log.user_id = session[:user_id]
         if @log.save
           redirect_to spot_path(@problem.spot)
+          return
         end
       end
       render template: 'problems/new'
@@ -35,9 +38,6 @@ class LogsController < ApplicationController
       @log = Log.new(log_params)
       if @log.save
         flash[:success] = 'ログを登録しました。'
-        # problem = Problem.find(params[:log][:problem_id])
-        # redirect_to controller: :logs, action: :create
-        # byebug
         redirect_to spot_path(@log.problem.spot)
       else
         flash.now[:danger] = 'ログの登録に失敗しました。'
@@ -59,8 +59,8 @@ class LogsController < ApplicationController
   private
 
   def log_params
-    params.require(:log).permit("climbed_at(1i)", "climbed_at(2i)", "climbed_at(3i)", :status, :comment, :problem_id, :user_id, photos: [])
-    # params.require(:log).permit("climbed_at(1i)", "climbed_at(2i)", "climbed_at(3i)", :status, :comment, :problem_id, :user_id)
+    params.require(:log).permit(:climbed_at, :status, :comment, :problem_id, :user_id, photos: [])
+    # params.require(:log).permit(:climbed_at, :status, :comment, :problem_id, :user_id, :photos)
   end
   
   def problem_params

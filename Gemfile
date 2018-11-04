@@ -65,6 +65,7 @@ group :development do
 end
 
 group :production do
+  # herokuデータベース用
   gem 'pg', '0.21.0'
 end
 

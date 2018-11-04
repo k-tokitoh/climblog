@@ -48,7 +48,9 @@ test:
 #     url: <%= ENV['DATABASE_URL'] %>
 #
 production:
-  <<: *default
+  adapter: postgresql
+  encoding: unicode
+  pool: 5
   database: climblog_production
   username: climblog
   password: <%= ENV['CLIMBLOG_DATABASE_PASSWORD'] %>

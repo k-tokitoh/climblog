@@ -1,4 +1,5 @@
-<%= link_to 'Log In', 'login' %>
-<%= link_to 'Sign Up', new_user_path %>
+<%= form_tag :root, method: :get do %>
+    <%= select_tag :filter, options_for_select(['All', 'Followings', 'Likes']), class: 'form-control' %>
+<% end %>
 
 <%= render 'logs/feed' %>

@@ -1,8 +1,13 @@
-<h4>行ってきたジム・岩場はどこですか？</h4>
+<div class='inner-container'>
+  <h4>行ってきたジム・岩場はどこですか？</h4>
+</div>
 
-<% @spots.each do |spot| %>
-    <%= link_to spot.name, spot.becomes(Spot) %><br>
-<% end %>
+<ul class='list-group'>
+  <% @spots.each do |spot| %>
+    <li class='list-group-item'><%= link_to spot.name, spot.becomes(Spot) %></li>
+  <% end %>
+</ul>
 
------------------------------------<br>
-<%= link_to 'ジム・岩場を新規登録する', new_spot_path %><br>
+<div id='parent-of-spot-registration-btn'>
+    <%= link_to '未掲載のジム・岩場を登録する', new_spot_path, class:'btn btn-primary spot-registration-btn' %>
+</div>

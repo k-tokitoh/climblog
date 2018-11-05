@@ -14,7 +14,9 @@
                 <% end %>
             </ul>
             <p class='status'>
-                <%= STATUS[log.status.to_i] %>
+                <% if false %>
+                    <%= STATUS[log.status.to_i] %>
+                <% end %>
             </p>
         </div>
         <p class='description'>

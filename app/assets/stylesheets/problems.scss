@@ -10,3 +10,11 @@
 .problem img{
     width: 100%;
 }
+
+#parent-of-problem-registration-btn {
+    position: fixed;
+    width: 100%;
+    bottom: 30px;
+    left:calc(50% - 100%/2);
+    text-align: center;
+}

@@ -1,33 +1,36 @@
 <h2><%= @spot.name %></h2>
 
-<p><%= link_to '未掲載課題のログを登録する', new_problem_path(spot_id: @spot.id.to_s, grade: @grade) %></p>
+<div class='row'>
+  <%= form_tag spot_path(@spot), method: :get do %>
+    <div class='col-xs-6 col-xs-offset-3'>
+      <%= select_tag :grade, options_for_select(GRADE_CORRESPONDENCE.values.unshift('全て'), @grade), class: 'form-control' %>
+    </div>
+  <% end %>
+</div>
 
-<%= form_tag spot_path(@spot), method: :get do %>
-    <%= select_tag :grade, options_for_select(GRADE_CORRESPONDENCE.values.unshift('全て'), @grade) %>
-    <%= submit_tag 'filter' %>
-<% end %>
+  <% @problems.each do |problem| %>
+    <div class='problem'>
+      <!--現在のユーザーにとってのその課題のstatusを表示したい-->
+      <%= GRADE_CORRESPONDENCE[problem.grade] %><br>
+      <ul class='bxslider'>
+        <% problem.logs.each do |log| %>
+          <% log.photos.each do |photo| %>
+            <li><%= image_tag photo %></li>
+          <% end %>
+        <% end %>
+    
+        
+        <% if false %>
+          <% problem.photos.each do |photo| %>
+            <li><%= image_tag photo %></li>
+          <% end %>
+        <% end %>
+      </ul>
+      <%= link_to 'ログを作成する', new_log_path(problem_id: problem.id) %><br>
+      <%= link_to '課題を削除する', problem_path(problem), method: :delete, data: {confirm: '本当に課題を削除しますか？'} %><br>
+    </div>
+  <% end %>
 
-
-    <% @problems.each do |problem| %>
-        <div class='problem'>
-            <!--現在のユーザーにとってのその課題のstatusを表示したい-->
-            <%= GRADE_CORRESPONDENCE[problem.grade] %><br>
-            <ul class='bxslider'>
-                <% problem.logs.each do |log| %>
-                    <% log.photos.each do |photo| %>
-                        <li><%= image_tag photo %></li>
-                    <% end %>
-                <% end %>
-            
-                
-                <% if false %>
-                    <% problem.photos.each do |photo| %>
-                        <li><%= image_tag photo %></li>
-                    <% end %>
-                <% end %>
-            </ul>
-            <%= link_to 'ログを作成する', new_log_path(problem_id: problem.id) %><br>
-            <%= link_to '課題を削除する', problem_path(problem), method: :delete, data: {confirm: '本当に課題を削除しますか？'} %><br>
-            --------------------------------------<br>
-        </div>
-    <% end %>
+<div id='parent-of-problem-registration-btn'>
+  <%= link_to '未掲載課題のログを登録する', new_problem_path(spot_id: @spot.id.to_s, grade: @grade), class:'btn btn-primary problem-registration-btn' %>
+</div>

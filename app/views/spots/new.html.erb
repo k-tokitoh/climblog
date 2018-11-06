@@ -1,37 +1,4 @@
-<h1>ジム・岩場新規登録</h1>
+<h3>新規作成するのはどちらですか？<h3>
 
-<%= form_for(@spot) do |f| %>
-    <%= render 'layouts/error_messages', model: f.object %>
-
-    <p>
-        <%= f.label :type, 'タイプ' %>
-        <%= f.select :type, ['Gym', 'Area'] %>
-    </p>
-    
-    <p>
-        <%= f.label :name, '名称' %>
-        <%= f.text_field :name %>
-    </p>
-    
-    <p>    
-        <%= f.label :prefecture, '都道府県（ジムのみ）' %>
-        <%= f.text_field :prefecture %>
-    </p>
-    
-    <p>    
-        <%= f.label :adress, '住所（ジムのみ）' %>
-        <%= f.text_field :adress %>
-    </p>
-    
-    <p>
-        <%= f.label :url, 'URL（ジムのみ）' %>
-        <%= f.text_field :url %>
-    </p>
-    
-    <p>    
-        <%= f.label :region, '地域（外岩のみ）' %>
-        <%= f.text_field :region %>
-    </p>
-    
-    <%= f.submit '新規登録' %>
-<% end %>
+<%= link_to 'ジム', new_gym_path, class: 'btn btn-primary' %>
+<%= link_to '岩場', new_area_path, class: 'btn btn-primary' %>

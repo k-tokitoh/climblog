@@ -1,20 +1,26 @@
 Rails.application.routes.draw do
-  get 'areas/new'
-  get 'areas/create'
-  get 'gyms/new'
-  get 'gyms/create'
- 
+
   root to: 'logs#index'
+  resources :logs
+  post 'logs',to: 'logs#create', as: 'create_log'
+  
   get 'login', to: 'sessions#new'
   post 'login', to: 'sessions#create'
   delete 'logout', to: 'sessions#destroy'
   
   resources :users
-  post 'logs',to: 'logs#create', as: 'create_log'
-  resources :logs
+  
   resources :spots
+  
   resources :gyms, only: [:new, :create]
+  
   resources :areas, only: [:new, :create]  
-  resources :problems
+  
+  resources :problems, only: [:index, :new, :show, :destroy]
+  
+  resources :follow_relations, only: [:create, :destroy]
+
+  resources :like_relations, only: [:create, :destroy]
+
       
 end

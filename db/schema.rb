@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_10_22_115353) do
+ActiveRecord::Schema.define(version: 2018_11_08_080445) do
 
   create_table "active_storage_attachments", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "name", null: false
@@ -31,6 +31,26 @@ ActiveRecord::Schema.define(version: 2018_10_22_115353) do
     t.string "checksum", null: false
     t.datetime "created_at", null: false
     t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
+  end
+
+  create_table "follow_relations", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.bigint "following_id"
+    t.bigint "followed_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["followed_id"], name: "index_follow_relations_on_followed_id"
+    t.index ["following_id", "followed_id"], name: "index_follow_relations_on_following_id_and_followed_id", unique: true
+    t.index ["following_id"], name: "index_follow_relations_on_following_id"
+  end
+
+  create_table "like_relations", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.bigint "user_id"
+    t.bigint "log_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["log_id"], name: "index_like_relations_on_log_id"
+    t.index ["user_id", "log_id"], name: "index_like_relations_on_user_id_and_log_id", unique: true
+    t.index ["user_id"], name: "index_like_relations_on_user_id"
   end
 
   create_table "logs", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
@@ -75,6 +95,10 @@ ActiveRecord::Schema.define(version: 2018_10_22_115353) do
     t.datetime "updated_at", null: false
   end
 
+  add_foreign_key "follow_relations", "users", column: "followed_id"
+  add_foreign_key "follow_relations", "users", column: "following_id"
+  add_foreign_key "like_relations", "logs"
+  add_foreign_key "like_relations", "users"
   add_foreign_key "logs", "problems"
   add_foreign_key "logs", "users"
   add_foreign_key "problems", "spots"

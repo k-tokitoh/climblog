@@ -1,15 +1,42 @@
-<%= link_to 'Logout', logout_path, method: :delete %>
-<%= "ログ: #{@user.logs.size} 件" %><br>
-<%= "Not yet: #{User.joins(:logs).where(id: @user.id, logs: {status: 'トライ中'}).size} 件" %><br>
-<%= "OS: #{User.joins(:logs).where(id: @user.id, logs: {status: 'オンサイト'}).size} 件" %><br>
-<%= "RP: #{User.joins(:logs).where(id: @user.id, logs: {status: 'レッドポイント'}).size} 件" %><br>
+<h3><%= @user.name %></h3>
 
-<%= "OSグレード： #{GRADE_CORRESPONDENCE[@max_grade['オンサイト']]}" %><br>
-<%= "RPグレード： #{GRADE_CORRESPONDENCE[@max_grade['レッドポイント']]}" %><br>
+<% unless current_user == @user %>
+  <% if current_user.follow?(@user) %>
+    <%= form_for(current_user.following_relations.find_by(followed_id: @user.id), html: { method: :delete }) do |f| %>
+      <%= hidden_field_tag :followed_id, @user.id %>
+      <%= f.submit 'Unfollow', class: 'btn btn-danger' %>
+    <% end %>
+  <% else %>
+    <%= form_for(current_user.following_relations.build) do |f| %>
+      <%= hidden_field_tag :followed_id, @user.id %>
+      <%= f.submit 'Follow', class: 'btn btn-primary' %>
+    <% end %>
+  <% end %>
+<% end %>
 
-<%= form_tag user_path(@user), method: :get do %>
-    <%= select_tag :status, options_for_select({'All'=>nil}.merge(STATUS.invert), @status) %>
-    <%= submit_tag :filter %>
+<ul class='list-group'>
+  <li class='list-group-item'><%= "Followings: #{@count_followings}" %></li>
+  <li class='list-group-item'><%= "Followers: #{@count_followers}" %></li>
+  <li class='list-group-item'><%= "ログ: #{@user.logs.size} 件" %></li>
+</ul>
+
+<% if false %>
+    <li class='list-group-item'><%= "Not yet: #{User.joins(:logs).where(id: @user.id, logs: {status: '未完登'}).size} 件" %></li>
+    <li class='list-group-item'><%= "OS: #{User.joins(:logs).where(id: @user.id, logs: {status: 'OS'}).size} 件" %></li>
+    <li class='list-group-item'><%= "RP: #{User.joins(:logs).where(id: @user.id, logs: {status: 'RP'}).size} 件" %></li>
+    <li class='list-group-item'><%= "OSグレード： #{GRADE_CORRESPONDENCE[@max_grade['オンサイト']]}" %></li>
+    <li class='list-group-item'><%= "RPグレード： #{GRADE_CORRESPONDENCE[@max_grade['レッドポイント']]}" %></li>
+  
+  <%= form_tag user_path(@user), method: :get do %>
+      <%= select_tag :status, options_for_select({'All'=>nil}.merge(STATUS.invert), @status) %>
+      <%= submit_tag :filter %>
+  <% end %>
+<% end %>
+
+<% if @user == current_user %>
+  <p class='text-right'>
+    <%= link_to 'Logout', logout_path, method: :delete %>
+  </p>
 <% end %>
 
 <%= render 'logs/feed' %>

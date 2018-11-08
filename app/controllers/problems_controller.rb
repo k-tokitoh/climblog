@@ -1,10 +1,15 @@
 class ProblemsController < ApplicationController
 
   def index
-    # byebug
     @spot = Spot.find(params[:spot_id])
     @grade = params[:grade]
     @problems = Problem.where(spot_id: params[:spot_id], grade: params[:grade])
+  end
+
+  def show
+    # spotを見つけられなかった場合の処理も書くこと
+    @problem = Problem.find(params[:id])
+    @logs = @problem.logs
   end
 
   def new

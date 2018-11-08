@@ -2,7 +2,7 @@ class LogsController < ApplicationController
   # protect_from_forgery except: :create
   
   def index
-    @logs = Log.includes(:user).all
+    @logs = Log.includes(:user).all.order(created_at: :DESC)
   end
   
   def new
@@ -11,7 +11,6 @@ class LogsController < ApplicationController
   end
 
   def create
-    # byebug
     # 新規課題の場合
     if params[:problem].present?
       @problem = Problem.new(problem_params)
@@ -42,15 +41,11 @@ class LogsController < ApplicationController
         render :new
       end
     end
-
-    
-
-    
   end
   
   def destroy
     Log.find(params[:id]).destroy
-    redirect_to user_path(User.find(session[:user_id]))
+    redirect_back fallback_location: user_path(current_user)
   end
 
   private

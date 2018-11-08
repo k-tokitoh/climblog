@@ -1,0 +1,4 @@
+<h3><%= @problem.spot.name + GRADE_CORRESPONDENCE[@problem.grade] %></h3>
+この課題には<%= @problem.logs.size %>件のログがあります
+
+<%= render 'logs/feed' %>

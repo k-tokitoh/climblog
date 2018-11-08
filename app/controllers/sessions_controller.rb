@@ -1,8 +1,5 @@
 class SessionsController < ApplicationController
   def new
-    if session[:user_id]
-      redirect_to user_url(session[:user_id].to_i)
-    end
   end
 
   def create
@@ -10,7 +7,7 @@ class SessionsController < ApplicationController
     password = params[:session][:password]
     if login(email, password)
       flash[:success] = 'ログインに成功しました。'
-      redirect_to @user
+      redirect_to :root
     else
       flash.now[:danger] = 'ログインに失敗しました。'
       render 'new'

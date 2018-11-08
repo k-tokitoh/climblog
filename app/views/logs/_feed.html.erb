@@ -1,40 +1,62 @@
 <% @logs.each do |log| %>
-  <div class='panel panel-default log'>
-    <p class='description'>
-      <%= log.user.name %><br>
+  <p class='description'>
+    <%= link_to log.user.name, log.user %>
+    <div class='text-right'>
       <%= log.climbed_at %>
-      <%= log.comment %><br>
-      <p class='text-right'>
-        <%= link_to log.problem.spot.name, spot_path(log.problem.spot) %>
-        <%= GRADE_CORRESPONDENCE[log.problem.grade] %><br>
-      </p>
-      
-      <% if false %>
-        <% if session[:user_id] %>
-            <%= link_to 'ログを作成する', new_log_path(problem_id: log.problem.id) %>
-        <% else %>
-            <%= link_to 'ログを作成する', 'login' %>
-        <% end %>
+    </div>
+    
+    <% if false %>
+      <% if session[:user_id] %>
+          <%= link_to 'ログを作成する', new_log_path(problem_id: log.problem.id) %>
+      <% else %>
+          <%= link_to 'ログを作成する', 'login' %>
       <% end %>
-      <% if log.user == session[:user_id] %>
-          <%= link_to 'ログを削除する', log, method: :delete, data: {confirm: '本当にログを削除しますか？'} %>
-      <% end %>
-    </p>
-
-    <% photos =log.photos %>
-    <% if photos.first %>
-      <div class='slider'>
-        <ul class='bxslider'>
-          <% photos.each do |photo| %>
-              <li><%= image_tag photo %></li>
-          <% end %>
-        </ul>
-        <p class='status'>
-          <% if false %>
-              <%= STATUS[log.status.to_i] %>
-          <% end %>
-        </p>
-      </div>
     <% end %>
-  </div>
+  </p>
+
+  <% photos =log.photos %>
+  <% if photos.first %>
+    <div class='slider'>
+      <ul class='bxslider'>
+        <% photos.each do |photo| %>
+            <li><%= image_tag photo %></li>
+        <% end %>
+      </ul>
+      <p class='status'>
+        <% if false %>
+            <%= STATUS[log.status.to_i] %>
+        <% end %>
+      </p>
+    </div>
+  <% end %>
+  
+  <p class='text-right'>
+    <%= link_to "#{log.problem.spot.name} #{GRADE_CORRESPONDENCE[log.problem.grade]}", log.problem.becomes(Problem) %>
+  </p>
+  
+  <%= log.comment %><br>
+  
+  <% if logged_in? %>
+    <% if current_user.like?(log) %>
+      <%= form_for(current_user.like_relations.find_by(log_id: log.id), data: { remote: true }, html: { method: :delete }) do |f| %>
+        <%= hidden_field_tag :log_id, log.id %>
+        <%= f.submit "#{log.like_users.size} likes" %>
+      <% end %>
+    <% else %>
+      <%= form_for(current_user.like_relations.build, data: { remote: true }) do |f| %>
+        <%= hidden_field_tag :log_id, log.id %>
+        <%= f.submit "#{log.like_users.size} likes", class: 'like-btn' %>
+      <% end %>
+    <% end %>
+  <% else %>
+    <% link_to "#{log.like_users.size} likes", new_user_path %>
+  <% end %>
+  <div class='test'></div>
+  
+  <p class='text-right'>
+    <% if log.user == current_user %>
+        <%= link_to 'ログを削除する', log, method: :delete, data: {confirm: '本当にログを削除しますか？'} %>
+    <% end %>
+  </p>
+  <hr>
 <% end %>

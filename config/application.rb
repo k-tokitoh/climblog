@@ -29,5 +29,8 @@ module Climblog
 
     # Don't generate system test files.
     config.generators.system_tests = nil
+    
+    # フォームを2回以上押せるようにする
+    config.action_view.automatically_disable_submit_tag = false # この行を追加
   end
 end

@@ -1,1 +1,1 @@
-$('.test').html('ajax success!')
+$('#log<%= @log.id %>').children('.like').html("<%= escape_javascript(render 'like_relations/unlike_btn', log: @log) %>")

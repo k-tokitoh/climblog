@@ -1,7 +1,7 @@
 <div class='row'>
   <%= form_tag :root, method: :get do %>
     <div class='col-xs-6 col-xs-offset-3'>
-      <%= select_tag :filter, options_for_select(['All', 'Followings', 'Likes']), class: 'form-control' %>
+      <%= select_tag :filter, options_for_select(['All', 'Followings', 'Likes']), class: 'form-control', onChange: "refeed()" %>
     </div>
   <% end %>
 </div>

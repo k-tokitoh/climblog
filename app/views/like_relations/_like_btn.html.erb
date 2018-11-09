@@ -1,0 +1,7 @@
+<%= form_for(current_user.like_relations.build, data: { remote: true }) do |f| %>
+  <%= hidden_field_tag :log_id, log.id %>
+
+  <%= button_tag type: "submit", class: 'like-btn' do %>
+    <i class="far fa-heart"></i> <%= log.like_users.size %>
+  <% end %>
+<% end %>

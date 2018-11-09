@@ -1,0 +1,6 @@
+<%= form_for(current_user.like_relations.find_by(log_id: log.id), data: { remote: true }, html: { method: :delete }) do |f| %>
+  <%= hidden_field_tag :log_id, log.id %>
+  <%= button_tag type: "submit", class: 'unlike-btn' do %>
+    <i class="fas fa-heart"></i> <%= log.like_users.size %>
+  <% end %>
+<% end %>

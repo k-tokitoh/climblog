@@ -60,7 +60,7 @@ header .menu ul li a {
   color: #000;
 }
 
-header .menu lu li .icon {
+header .menu ul li .icon {
   font-size: 10vw;
 }
 
@@ -105,7 +105,7 @@ h3 {
     margin:0 auto 0;
   }
   
-  header li .icon {
+  header .menu ul li .icon {
     font-size:40px;
   }
 }

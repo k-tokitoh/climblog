@@ -15,10 +15,6 @@
  *= require_self
  */
 
-html {
-  overflow: hidden;
-}
-
 header {
   position: relative;
   width: 100%;
@@ -78,6 +74,38 @@ header .menu ul li .icon {
   /*display: inline-block;*/
   width: 90%;
   margin: 0 auto 0;
+}
+
+#welcome {
+  position: relative;
+}
+
+#rock_texture {
+  width: 100%;
+}
+
+#welcome h1 {
+  position: absolute;
+  top:0;  
+  left:0;
+  color: white;
+  font-weight: bold;
+  text-align: center;
+  margin-top: 28px;
+}
+
+#welcome .btn-group {
+  position: absolute;
+  bottom: 14%;
+  left: 16%;
+}
+
+#welcome .btn {
+/*position: absolute;*/
+/*  top: 0;*/
+/*  left: 0;*/
+  margin: 6px;
+  font-weight: bold
 }
 
 h3 {

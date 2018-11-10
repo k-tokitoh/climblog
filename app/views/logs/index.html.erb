@@ -1,5 +1,12 @@
-<% if logged_in?%>
-  <h3>あなたのクライミングを記録して共有しましょう</h3>
+<% unless logged_in? %>
+  <div id='welcome'>
+    <%= image_tag('rock_texture_cropped.jpg', { :border => '0', :alt => 'rock_texture', id: 'rock_texture'}) %>
+    <h1>あなたのクライミングを記録して共有しよう</h1>
+    <div class='btn-group'>
+      <%= link_to 'アカウント新規作成', new_user_path, class: 'btn btn-info' %>
+      <%= link_to 'ログイン', login_path, class: 'btn btn-info' %>
+    </div>
+  </div>
 <% end %>
 
 <!--<div class='row'>-->

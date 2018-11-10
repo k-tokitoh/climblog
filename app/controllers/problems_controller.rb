@@ -1,10 +1,5 @@
 class ProblemsController < ApplicationController
-
-  def index
-    @spot = Spot.find(params[:spot_id])
-    @grade = params[:grade]
-    @problems = Problem.where(spot_id: params[:spot_id], grade: params[:grade])
-  end
+  before_action :require_user_logged_in, only: [:new, :create, :destroy]
 
   def show
     # spotを見つけられなかった場合の処理も書くこと
@@ -13,28 +8,29 @@ class ProblemsController < ApplicationController
   end
 
   def new
+    # byebug
     @spot = Spot.find(params[:spot_id])
     @grade = params[:grade]
     @problem = @spot.becomes(Spot).problems.new
     @log = @problem.logs.new
+    # byebug
   end
 
-  # def create
-  #   @problem = Problem.new(problem_params)
-  #   # byebug
-  #   if @problem.save
-  #     flash[:success] = '課題を登録しました。'
-  #     # @log = params[:log]
-  #     @redirect_path = create_log_path(log: log_params)
-  #     render "shared/redirect_form", layout: false
-  #     # redirect_to :root
-  #   else
-  #     flash.now[:danger] = '課題の登録に失敗しました。'
-  #     @spot = Spot.find(params[:spot][:id])
-  #     # byebug
-  #     render :new
-  #   end
-  # end
+  def create
+    @problem = Problem.new(problem_params)
+    @log = Log.new(log_params)
+    @spot = @problem.spot
+    if log_params[:photos].present? && @problem.save
+      @log = Log.new(log_params)
+      @log.problem_id = @problem.id
+      if @log.save
+        redirect_to spot_path(@problem.spot)
+        return
+      end
+    end
+    flash.now[:danger] = '新規課題の登録には写真の添付が必要です。'
+    render :new
+  end
 
   def destroy
     problem = Problem.find(params[:id])

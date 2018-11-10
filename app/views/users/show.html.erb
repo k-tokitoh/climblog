@@ -1,6 +1,6 @@
 <h3><%= @user.name %></h3>
 
-<% unless current_user == @user %>
+<% if logged_in? && current_user != @user %>
   <% if current_user.follow?(@user) %>
     <%= form_for(current_user.following_relations.find_by(followed_id: @user.id), html: { method: :delete }) do |f| %>
       <%= hidden_field_tag :followed_id, @user.id %>
@@ -33,7 +33,7 @@
   <% end %>
 <% end %>
 
-<% if @user == current_user %>
+<% if logged_in? && current_user == @user %>
   <p class='text-right'>
     <%= link_to 'Logout', logout_path, method: :delete %>
   </p>

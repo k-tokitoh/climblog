@@ -1,4 +1,6 @@
 class AreasController < ApplicationController
+  before_action :require_user_logged_in
+  
   def new
     @area = Area.new
   end
@@ -18,6 +20,6 @@ class AreasController < ApplicationController
   private
   
   def area_params
-    params.require(:area).permit(:name, :prefecture, :url)
+    params.require(:area).permit(:name, :region)
   end
 end

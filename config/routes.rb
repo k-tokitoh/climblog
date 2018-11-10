@@ -16,7 +16,7 @@ Rails.application.routes.draw do
   
   resources :areas, only: [:new, :create]  
   
-  resources :problems, only: [:index, :new, :show, :destroy]
+  resources :problems, only: [:index, :new, :create, :show, :destroy]
   
   resources :follow_relations, only: [:create, :destroy]
 

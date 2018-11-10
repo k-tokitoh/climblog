@@ -1,16 +1,22 @@
 class User < ApplicationRecord
+  before_save { self.email.downcase! }
+  validates :name, presence: true, length: { maximum: 50 }
+  validates :email, presence: true, length: { maximum: 255 },
+                    format: { with: /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i },
+                    uniqueness: { case_sensitive: false }  
+
   has_secure_password
-  has_many :logs
+  has_many :logs, dependent: :destroy
   
   # 第一引数: 関連付け名（任意。規約では関連付けるテーブル名）('User.第一引数'が使えるようになる。)
   # class_name: 関連付けるテーブル名
   # foreign_key: 関連付けるテーブルのどのカラムの値がこのモデルのidと等しいときにデータをもってくればよいか
-  has_many :following_relations, class_name: 'FollowRelation', foreign_key: 'following_id'
+  has_many :following_relations, class_name: 'FollowRelation', foreign_key: 'following_id', dependent: :destroy
   # through: 経由する関連付けの名前(User.through)
   # source: 経由する関連付けにより参照したテーブルの、どの関連付けを利用するか
   has_many :followings, through: :following_relations, source: :followed
   
-  has_many :followed_relations, class_name: 'FollowRelation', foreign_key: 'followed_id'
+  has_many :followed_relations, class_name: 'FollowRelation', foreign_key: 'followed_id', dependent: :destroy
   has_many :followers, through: :followed_relations, source: :following
   
   def follow(other_user)

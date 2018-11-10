@@ -1,4 +1,8 @@
 class Log < ApplicationRecord
+  validates :climbed_at, presence: true
+  validates :status, presence: true  
+  validates :comment, presence: true  
+  
   belongs_to :user
   belongs_to :problem
   has_many_attached :photos

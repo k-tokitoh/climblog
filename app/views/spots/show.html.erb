@@ -3,7 +3,9 @@
 <div class='row'>
   <%= form_tag spot_path(@spot), method: :get do %>
     <div class='col-xs-6 col-xs-offset-3'>
-      <%= select_tag :grade, options_for_select(GRADE_CORRESPONDENCE.values.unshift('全て'), @grade), class: 'form-control' %>
+      <% if false %>
+        <%= select_tag :grade, options_for_select(GRADE_CORRESPONDENCE.values.unshift('全て'), @grade), class: 'form-control' %>
+      <% end %>
     </div>
   <% end %>
 </div>
@@ -11,7 +13,6 @@
   <% @problems.each do |problem| %>
     <div class='problem'>
       <!--現在のユーザーにとってのその課題のstatusを表示したい-->
-      <%= GRADE_CORRESPONDENCE[problem.grade] %><br>
       <ul class='bxslider'>
         <% problem.logs.each do |log| %>
           <% log.photos.each do |photo| %>
@@ -26,11 +27,12 @@
           <% end %>
         <% end %>
       </ul>
-      <%= link_to 'ログを作成する', new_log_path(problem_id: problem.id) %><br>
-      <%= link_to '課題を削除する', problem_path(problem), method: :delete, data: {confirm: '本当に課題を削除しますか？'} %><br>
+      <%= link_to "この#{GRADE_CORRESPONDENCE[problem.grade]}課題のログを作成する", new_log_path(problem_id: problem.id), class: 'btn btn-success btn-block' %>
+      <!--課題を作成したユーザーにのみ削除用のリンクを表示する（problemsテーブルにcreated_byカラムを追加し、user_idを格納する）-->
+      <% link_to '課題を削除する', problem_path(problem), method: :delete, data: {confirm: '本当に課題を削除しますか？'} %><br><br>
     </div>
   <% end %>
 
 <div id='parent-of-problem-registration-btn'>
-  <%= link_to '未掲載課題のログを登録する', new_problem_path(spot_id: @spot.id.to_s, grade: @grade), class:'btn btn-primary problem-registration-btn' %>
+  <%= link_to '未掲載課題のログを登録する', new_problem_path(spot_id: @spot.id.to_s), class:'btn btn-primary problem-registration-btn' %>
 </div>

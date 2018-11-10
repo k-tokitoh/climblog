@@ -21,22 +21,23 @@ $(document).on('turbolinks:load',function(){
   // 画像の横スライド表示
   $('.bxslider').bxSlider({
       pager: false,
+      infiniteLoop: false
   });
   
   var menuBottom;
   
   // ナビバーのスクロール後上部固定
   $(window).on('scroll',function(){     
-      menuBottom = $('#menu').height();
+      menuBottom = $('.menu').height();
       if($(window).scrollTop() > menuBottom){
-          $('#menu').addClass('fixed');   
+          $('.menu').addClass('fixed');   
       }
       else{
-          $('#menu').removeClass('fixed');   
+          $('.menu').removeClass('fixed');   
       }
   });
    
-  $(window).trigger('scroll');
+  // $(window).trigger('scroll');
   
   // フォーム画面での画像のプレヴュー表示
   $('form').on('change', 'input[type="file"]', function(e) {
@@ -58,9 +59,9 @@ $(document).on('turbolinks:load',function(){
         // canvasのサイズを設定
         var canvas_width;
         if (window.parent.screen.width < 400){
-          canvas_width = window.parent.screen.width; 
+          canvas_width = window.parent.screen.width*0.9; 
         } else {
-          canvas_width = 400;
+          canvas_width = 400*0.9;
         }
 
         // canvas要素を追加
@@ -93,24 +94,24 @@ $(document).on('turbolinks:load',function(){
           context.drawImage(img, 0, 0, img_width, img_height);
           
           // 画像データを取得する
-          var color_image = context.getImageData(0, 0, canvas.width, canvas.height);
+          // var color_image = context.getImageData(0, 0, canvas.width, canvas.height);
           
           // 白黒に変換する
-          console.log(color_image);
+          // console.log(color_image);
           // console.log(color_image.data);
           // var toString = Object.prototype.toString
 
-          mono_image = new ImageData(
-            new Uint8ClampedArray(color_image.data),
-            color_image.width,
-            color_image.height
-          );
+          // mono_image = new ImageData(
+          //   new Uint8ClampedArray(color_image.data),
+          //   color_image.width,
+          //   color_image.height
+          // );
           // console.log(color)
-          for (var i = 0; i < mono_image.data.length; i+=4) {
-            var g = mono_image.data[i] * 0.2126 + mono_image.data[i+1] * 0.7152 + mono_image.data[i+2] * 0.0722;
-            mono_image.data[i] = mono_image.data[i+1] = mono_image.data[i+2] = g;
-            // d[i+3]に格納されたα値は変更しない
-          }
+          // for (var i = 0; i < mono_image.data.length; i+=4) {
+          //   var g = mono_image.data[i] * 0.2126 + mono_image.data[i+1] * 0.7152 + mono_image.data[i+2] * 0.0722;
+          //   mono_image.data[i] = mono_image.data[i+1] = mono_image.data[i+2] = g;
+          //   // d[i+3]に格納されたα値は変更しない
+          // }
           
           // 実験：画像のある位置より右側だけ黒に塗りつぶす
           // for (var i = 0; i < color_image.data.length; i+=4) {
@@ -139,16 +140,16 @@ $(document).on('turbolinks:load',function(){
 
           
           // マウスがクリックされている/いないという状態を取得する
-          var mousedown_flag = false;
-          $('#canvas').on('mousedown', function(){
-            mousedown_flag = true;
-          });
-          $('#canvas').on('mouseup', function(){
-            mousedown_flag = false;
-          });
+          // var mousedown_flag = false;
+          // $('#canvas').on('mousedown', function(){
+          //   mousedown_flag = true;
+          // });
+          // $('#canvas').on('mouseup', function(){
+          //   mousedown_flag = false;
+          // });
           
           // マウスの位置情報を取得する
-          $('#canvas').on('mousemove',function(e){
+          // $('#canvas').on('mousemove',function(e){
           
             // カーソルのあるピクセルを黒に塗りつぶす
             //   var pixel = context.getImageData(e.offsetX, e.offsetY, 1, 1);
@@ -187,19 +188,19 @@ $(document).on('turbolinks:load',function(){
             // カーソルを中心として、縦幅8px、横幅8pxの領域をカラーにする
             // var current_pixel_index = (e.offsetY * mono_image.width + e.offsetX)*4
             // console.log(current_pixel_index);
-            if (mousedown_flag == true) {
-              var color_area_data = new Array();
-              for (var row = e.offsetY-4; row < e.offsetY+4; row++ ){
-                Array.prototype.push.apply(color_area_data, color_image.data.slice((row*mono_image.width+e.offsetX-4)*4,(row*mono_image.width+e.offsetX+4)*4));
-                // color_area_data = color_image.data.slice(current_pixel_index,current_pixel_index+32)
-              }
+          //   if (mousedown_flag == true) {
+          //     var color_area_data = new Array();
+          //     for (var row = e.offsetY-4; row < e.offsetY+4; row++ ){
+          //       Array.prototype.push.apply(color_area_data, color_image.data.slice((row*mono_image.width+e.offsetX-4)*4,(row*mono_image.width+e.offsetX+4)*4));
+          //       // color_area_data = color_image.data.slice(current_pixel_index,current_pixel_index+32)
+          //     }
               
-              color_area = new ImageData(
-                new Uint8ClampedArray(color_area_data),8,8
-              );
-              context.putImageData(color_area,e.offsetX-4, e.offsetY-4);
-            }
-          });
+          //     color_area = new ImageData(
+          //       new Uint8ClampedArray(color_area_data),8,8
+          //     );
+          //     context.putImageData(color_area,e.offsetX-4, e.offsetY-4);
+          //   }
+          // });
           
 
           

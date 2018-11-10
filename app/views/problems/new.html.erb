@@ -1,52 +1,55 @@
-<!--あるspotにおける新規課題・ログ登録画面-->
+<div class='inner-container'>
+  <h3><%= @spot.name %>の新規課題登録</h3>
+  
+  <%= form_tag(problems_path, method: :post, multipart: true) do %>
+    <%= render 'layouts/error_messages', model: @problem %>
+    <% #byebug %>
+    <%= render 'layouts/error_messages', model: @log %>
+  
+    <% if @spot.type == 'Area' %>
+      <div class='form-group'>
+        <%= label :problem, :name, '名称' %>
+        <%= text_field :problem, :name, class: 'form-control' %>
+      </div>
+    <% end %>
+  
+    <div class='form-group'>
+      <%= label :problem, :grade, 'グレード' %>
+      <%= select :problem, :grade, GRADE_CORRESPONDENCE.invert, {}, class: 'form-control' %>
+    </div>
+  
+    <div class='form-group'>
+      <%= label :log, :climbed_at, 'トライした日付' %>
+      <%= date_field :log, :climbed_at, class: 'form-control' %>
+    </div>
+    
+    <div class='form-group'>
+      <%= label :log, :status, '状況' %>
+      <%= select :log, :status, STATUS.invert, {}, class: 'form-control' %>
+    </div>
+    
+    <div class='form-group'>
+      <%= label :log, :photos, '写真' %>
+      <%= file_field :log, :photos, multiple: true %>
+    </div>
+    
+    <div id='preview'></div>
+    
+    <div class='form-group'>
+      <%= label :log, :comment, 'コメント' %>
+      <%= text_area :log, :comment, class: 'form-control' %>
+    </div>
+    
+    <% if @spot.type == 'Area' %>
+      <% type = 'OutdoorProblem' %>
+    <% elsif @spot.type == 'Gym' %>
+      <% type = 'IndoorProblem' %>
+    <% end %>
 
-<%= "スポット名：#{@spot.name}" %>
-
-<%= form_tag(logs_path, method: :post, multipart: true) do %>
-
-    <p>
-        <%= label :problem, :type, 'タイプ' %>
-        <%= select :problem, :type, ['IndoorProblem', 'OutdoorProblem'] %>
-    </p>
-    
-    <p>
-        <%= label :problem, :grade, 'グレード' %>
-        <%= select :problem, :grade, GRADE_CORRESPONDENCE.invert %>
-    </p>
-    
-    <p>
-        <%= label :problem, :name, '名称（外岩のみ）' %>
-        <%= text_field :problem, :name %>
-    </p>
-    
-    <p>
-        <%= label :problem, :description, '課題概要' %>
-        <%= text_field :problem, :description %>
-    </p>
-
-    <p>
-        <%= label :log, :climbed_at, '日付' %>
-        <%= date_field :log, :climbed_at %>
-    </p>
-    
-    <p>
-        <%= label :log, :status, '状況' %>
-        <%= select :log, :status, STATUS.invert  %>
-    </p>
-    
-    <p>
-        <%= label :log, :photos, '画像' %>
-        <%= file_field :log, :photos, multiple: true %>
-    </p>
-    
-    <p>
-        <%= label :log, :comment, 'コメント' %>
-        <%= text_field :log, :comment %>
-    </p>
-    
+    <%= hidden_field :problem, :type, value: type %>    
     <%= hidden_field :problem, :spot_id, value: @spot.id %>
-
     <%= hidden_field :log, :user_id, value: session[:user_id] %>
-
-    <%= submit_tag '新規登録' %>
-<% end %>
+  
+    <%= submit_tag '新規登録', class: 'btn btn-success' %>
+  <% end %>
+</div>

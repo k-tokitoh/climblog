@@ -1,4 +1,5 @@
 class SpotsController < ApplicationController
+  before_action :require_user_logged_in, only: [:new, :create]
 
   def index
     @spots = Spot.all

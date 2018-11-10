@@ -1,4 +1,6 @@
 class GymsController < ApplicationController
+  before_action :require_user_logged_in
+  
   def new
     @gym = Gym.new
   end
@@ -18,6 +20,6 @@ class GymsController < ApplicationController
   private
   
   def gym_params
-    params.require(:gym).permit(:name, :region)
+    params.require(:gym).permit(:name, :prefecture, :url)
   end
 end

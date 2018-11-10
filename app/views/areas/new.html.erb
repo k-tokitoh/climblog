@@ -1,19 +1,21 @@
-<h1>岩場新規登録</h1>
-
-<%= form_for(@area) do |f| %>
-  <%= render 'layouts/error_messages', model: f.object %>
+<div class='inner-container'>
+  <h1>岩場新規登録</h1>
   
-  <div class='form-group'>
-    <%= f.label :name, '岩場名' %>
-    <%= f.text_field :name, class: 'form-control' %>
-  </div>
-  
-  <div class='form-group'>    
-    <%= f.label :region, '地域' %>
-    <%= f.select :region, options_for_select(REGIONS), {}, class: 'form-control' %>
-  </div>
-  
-  <div class='xs-col-6'>
-    <%= f.submit '新規登録', class: 'btn btn-success btn-block xs-col-6' %>
-  </div>
-<% end %>
+  <%= form_for(@area) do |f| %>
+    <%= render 'layouts/error_messages', model: f.object %>
+    
+    <div class='form-group'>
+      <%= f.label :name, '岩場名' %>
+      <%= f.text_field :name, class: 'form-control' %>
+    </div>
+    
+    <div class='form-group'>    
+      <%= f.label :region, '地域' %>
+      <%= f.select :region, options_for_select(REGIONS), {}, class: 'form-control' %>
+    </div>
+    
+    <div class='xs-col-6'>
+      <%= f.submit '新規登録', class: 'btn btn-success btn-block xs-col-6' %>
+    </div>
+  <% end %>
+</div>

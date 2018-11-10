@@ -45,7 +45,9 @@
           <%= render 'like_relations/like_btn', log: log %>
         <% end %>
       <% else %>
-        <% link_to "#{log.like_users.size} likes", new_user_path %>
+        <%= link_to new_user_path do %>
+          <i class='far fa-heart'></i> <%= log.like_users.size %>
+        <% end %>
       <% end %>
     </div>
     

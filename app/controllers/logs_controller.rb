@@ -1,8 +1,16 @@
 class LogsController < ApplicationController
   # protect_from_forgery except: :create
+  before_action :require_user_logged_in, only: [:new, :create, :destroy]
   
   def index
-    @logs = Log.includes(:user).all.order(created_at: :DESC)
+    # byebug
+    if params[:filter] == 'Likes'
+      @logs = current_user.like_logs.includes(:user).order(created_at: :DESC)
+    # elsif params[:filter] == 'Followings'
+    #   @logs = current_user.followings.logs.order(created_at: :DESC)
+    else
+      @logs = Log.includes(:user).all.order(created_at: :DESC)
+    end
   end
   
   def new
@@ -11,35 +19,14 @@ class LogsController < ApplicationController
   end
 
   def create
-    # 新規課題の場合
-    if params[:problem].present?
-      @problem = Problem.new(problem_params)
-      # @log = Log.new(log_params)
-      @spot = @problem.spot
-      
-      if @problem.save
-        # @log = @problem.logs.new(log_params)
-        @log = Log.new(log_params)
-        @log.problem_id = @problem.id
-        # @log.user_id = session[:user_id]
-        if @log.save
-          redirect_to spot_path(@problem.spot)
-          return
-        end
-      end
-      render template: 'problems/new'
-          
-    # 既存課題の場合
+    @log = Log.new(log_params)
+    if @log.save
+      flash[:success] = 'ログを登録しました。'
+      redirect_to spot_path(@log.problem.spot)
     else
-      @log = Log.new(log_params)
-      if @log.save
-        flash[:success] = 'ログを登録しました。'
-        redirect_to spot_path(@log.problem.spot)
-      else
-        flash.now[:danger] = 'ログの登録に失敗しました。'
-        @problem = Problem.find(params[:log][:problem_id])
-        render :new
-      end
+      flash.now[:danger] = 'ログの登録に失敗しました。'
+      @problem = Problem.find(params[:log][:problem_id])
+      render :new
     end
   end
   
@@ -48,14 +35,4 @@ class LogsController < ApplicationController
     redirect_back fallback_location: user_path(current_user)
   end
 
-  private
-
-  def log_params
-    params.require(:log).permit(:climbed_at, :status, :comment, :problem_id, :user_id, photos: [])
-    # params.require(:log).permit(:climbed_at, :status, :comment, :problem_id, :user_id, :photos)
-  end
-  
-  def problem_params
-    params.require(:problem).permit(:id, :grade, :type, :spot_id, :name, :description)
-  end
 end

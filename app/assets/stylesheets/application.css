@@ -14,7 +14,11 @@
  *= require_tree .
  *= require_self
  */
- 
+
+html {
+  overflow: hidden;
+}
+
 header {
   position: relative;
   width: 100%;
